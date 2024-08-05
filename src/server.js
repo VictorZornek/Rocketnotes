@@ -13,3 +13,6 @@ app.listen(PORT, () => console.log(`Server is running on Port ${PORT}`));
 
 
 // params são utilizados para dados simples, não utilize-os em informações muito complexas
+
+
+// controllers -> route -> server
