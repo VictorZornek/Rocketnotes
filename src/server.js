@@ -1,6 +1,7 @@
 require("express-async-errors");
 
-const AppError = require("./utils/AppError.js")
+const database = require("./database/sqlite"); // importação do banco de dados
+const AppError = require("./utils/AppError.js") // importação do AppError
 const express = require('express');  // importação do express
 
 const routes = require("./routes")
@@ -10,6 +11,8 @@ const app = express();  // inicialização do express
 app.use(express.json());  // necessário passar o formato de json
 
 app.use(routes);
+
+database(); //para executar o banco de dados
 
 app.use(( error, request, response, next ) => {   // Tratamento quando ocorrer algum tipo de erro
     if(error instanceof AppError) {               // Neste caso, está verificando se é um erro do usuário ou do servidor e devolvendo a resposta conforme o tipo de erro
