@@ -1,6 +1,6 @@
+const { hash } = require("bcryptjs"); // importação para criptografia de senha
 const AppError = require("../utils/AppError.js");
-
-const sqliteConnection = require("../database/sqlite")
+const sqliteConnection = require("../database/sqlite");
 
 /**
  * index - GET para listar vários registros.
@@ -21,8 +21,10 @@ class UsersController {
             throw new AppError('Este e-mail já está em uso.');
         }
 
+        const hashedPassword = await hash(password, 8);  // Para realizar a criptografia inserida pelo usuário - necessário usar await
+
         // Para realizar a inserção (create) de um usuário no banco de dados
-        await database.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, password]);
+        await database.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, hashedPassword]);
 
         return response.status(201).json();
     }
