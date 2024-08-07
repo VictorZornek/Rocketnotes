@@ -21,6 +21,9 @@ class UsersController {
             throw new AppError('Este e-mail já está em uso.');
         }
 
+        // Para realizar a inserção (create) de um usuário no banco de dados
+        await database.run("INSERT INTO users (name, email, password) VALUES (?, ?, ?)", [name, email, password]);
+
         return response.status(201).json();
     }
 }
