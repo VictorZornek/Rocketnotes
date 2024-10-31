@@ -1,3 +1,4 @@
+require("dotenv/config")
 require("express-async-errors");
 
 const migrationsRun = require("./database/sqlite/migrations"); // importação do banco de dados
@@ -36,11 +37,10 @@ app.use(( error, request, response, next ) => {   // Tratamento quando ocorrer a
     })
 });
 
-const PORT = 3333;  // definir número da porta 
+const PORT = process.env.PORT || 3333;  // definir número da porta 
 app.listen(PORT, () => console.log(`Server is running on Port ${PORT}`));
 
 
 // params são utilizados para dados simples, não utilize-os em informações muito complexas
-
 
 // controllers -> route -> server
