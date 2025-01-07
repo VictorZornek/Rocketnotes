@@ -2,6 +2,8 @@ const { hash, compare } = require("bcryptjs"); // importação para criptografia
 const AppError = require("../utils/AppError.js");
 const sqliteConnection = require("../database/sqlite");
 
+const UserRepository = require("../repositories/UserRepository.js")
+
 /**
  * index - GET para listar vários registros.
  * show - GET para exibir um registro especifico
@@ -14,13 +16,17 @@ class UsersController {
     async create(request, response) {
         const { name, email, password } = request.body
 
+        const userRepository = new UserRepository();
+
+        const checkUserExists = await userRepository.findByEmail(email)
+
         if(checkUserExists) {
             throw new AppError('Este e-mail já está em uso.');
         }
 
         const hashedPassword = await hash(password, 8);  // Para realizar a criptografia inserida pelo usuário - necessário usar await
 
-        // Para realizar a inserção (create) de um usuário no banco de dados
+        await userRepository.create({ name, email, password: hashedPassword })
 
         return response.status(201).json();
     }
