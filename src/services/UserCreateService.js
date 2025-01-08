@@ -17,7 +17,9 @@ class UserCreateService {
 
         const hashedPassword = await hash(password, 8);  // Para realizar a criptografia inserida pelo usuário - necessário usar await
 
-        await this.userRepository.create({ name, email, password: hashedPassword })
+        const userCreated = await this.userRepository.create({ name, email, password: hashedPassword })
+    
+        return userCreated;
     }
 
 }
